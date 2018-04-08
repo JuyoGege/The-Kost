@@ -51,39 +51,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\AIMvmt.cs" />
      <Compile Include="Assets\Character\TerrainAsset\Scipts\FPControllerTerrains.cs" />
      <Compile Include="Assets\Character\TerrainAsset\Scipts\MouseLook.cs" />
      <Compile Include="Assets\DoorProject\Prefab\Opener.cs" />
      <Compile Include="Assets\My Scripts\CharacterRun.cs" />
-     <Compile Include="Assets\My Scripts\CollideLaser.cs" />
      <Compile Include="Assets\My Scripts\CollideTile.cs" />
      <Compile Include="Assets\My Scripts\DoorScripts.cs" />
      <Compile Include="Assets\My Scripts\DoorTrigger.cs" />
-     <Compile Include="Assets\My Scripts\enemyDamage.cs" />
-     <Compile Include="Assets\My Scripts\ExitSequence.cs" />
      <Compile Include="Assets\My Scripts\Flashlight.cs" />
-     <Compile Include="Assets\My Scripts\GameOverMenu.cs" />
-     <Compile Include="Assets\My Scripts\Generate.cs" />
-     <Compile Include="Assets\My Scripts\Generator.cs" />
-     <Compile Include="Assets\My Scripts\InGameManager.cs" />
-     <Compile Include="Assets\My Scripts\Killer.cs" />
-     <Compile Include="Assets\My Scripts\LaserSequence.cs" />
      <Compile Include="Assets\My Scripts\LevelLoader.cs" />
      <Compile Include="Assets\My Scripts\loadLevel.cs" />
-     <Compile Include="Assets\My Scripts\Manager.cs" />
      <Compile Include="Assets\My Scripts\Menucontrol.cs" />
      <Compile Include="Assets\My Scripts\MoveObject.cs" />
      <Compile Include="Assets\My Scripts\PauseMenu.cs" />
      <Compile Include="Assets\My Scripts\PauseMenu1.cs" />
-     <Compile Include="Assets\My Scripts\PlayerHealth.cs" />
-     <Compile Include="Assets\My Scripts\StoneFall.cs" />
-     <Compile Include="Assets\My Scripts\SwitchDoor.cs" />
-     <Compile Include="Assets\My Scripts\SwitchLaser1.cs" />
-     <Compile Include="Assets\My Scripts\TerrainManager.cs" />
-     <Compile Include="Assets\My Scripts\TileMove.cs" />
-     <Compile Include="Assets\My Scripts\TimeManager.cs" />
-     <Compile Include="Assets\My Scripts\TimeSlower.cs" />
-     <Compile Include="Assets\My Scripts\WarpDoor.cs" />
      <Compile Include="Assets\RainMaker\Demo\DemoScript.cs" />
      <Compile Include="Assets\RainMaker\Demo\DemoScript2D.cs" />
      <Compile Include="Assets\RainMaker\Prefab\BaseRainScript.cs" />
