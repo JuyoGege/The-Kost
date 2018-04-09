@@ -66,6 +66,8 @@
      <Compile Include="Assets\My Scripts\MoveObject.cs" />
      <Compile Include="Assets\My Scripts\PauseMenu.cs" />
      <Compile Include="Assets\My Scripts\PauseMenu1.cs" />
+     <Compile Include="Assets\My Scripts\PlayerCamera.cs" />
+     <Compile Include="Assets\My Scripts\PlayerMovement.cs" />
      <Compile Include="Assets\RainMaker\Demo\DemoScript.cs" />
      <Compile Include="Assets\RainMaker\Demo\DemoScript2D.cs" />
      <Compile Include="Assets\RainMaker\Prefab\BaseRainScript.cs" />

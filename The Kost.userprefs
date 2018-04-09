@@ -1,13 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\DoorProject\Prefab\Opener.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\My Scripts\Flashlight.cs">
     <Files>
       <File FileName="Assets\RainMaker\Prefab\RainScript.cs" Line="1" Column="1" />
       <File FileName="Assets\RainMaker\Prefab\BaseRainScript.cs" Line="1" Column="1" />
       <File FileName="Assets\RainMaker\Prefab\RainScript2D.cs" Line="1" Column="1" />
       <File FileName="Assets\RainMaker\Prefab\RainShader.shader" Line="1" Column="1" />
       <File FileName="Assets\RainMaker\Readme.txt" Line="1" Column="1" />
-      <File FileName="Assets\My Scripts\Flashlight.cs" Line="1" Column="1" />
+      <File FileName="Assets\My Scripts\Flashlight.cs" Line="11" Column="5" />
       <File FileName="Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\FirstPersonController.cs" Line="1" Column="1" />
       <File FileName="Assets\AIMvmt.cs" Line="1" Column="1" />
       <File FileName="Assets\DoorProject\Prefab\Opener.cs" Line="1" Column="1" />
