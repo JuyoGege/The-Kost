@@ -4,20 +4,22 @@
 
 public class Flashlight : MonoBehaviour
 {
-
+    [Range(1, 2)]
     [SerializeField]
     float initialIntensity = 1.2f;
 
-    [Range(0f, 10f)]
-    [SerializeField]
-    float drainSpeed = 1.66f;
-
-    [Range(0f, 100f)]
     [SerializeField]
     float battery = 100f;
 
+    [Range(0f, 120f)]
+    [SerializeField]
+    int drainSpeed = 60; //time needed in second to drain whole battery (100%)
+
     [SerializeField]
     GameObject player;
+
+    [SerializeField]
+    GameObject playerCamera;
 
     [SerializeField]
     Vector3 offset;
@@ -29,40 +31,41 @@ public class Flashlight : MonoBehaviour
 
     void Start()
     {
-        collide = false;
-        held = false;
         flashlight = gameObject.GetComponent<Light>();
         flashlight.type = LightType.Spot;
         flashlight.range = 15f;
         flashlight.intensity = initialIntensity;
         flashlight.spotAngle = 60f;
         flashlight.enabled = false;
+        collide = false;
+        held = false;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E)) //collide
+        if (collide && Input.GetKeyDown(KeyCode.E))
         {
+            transform.parent = playerCamera.transform;
             transform.position = player.transform.position + offset;
-            transform.rotation = player.transform.rotation;
-            transform.parent = player.transform;
-            transform.position.Normalize();
+            transform.rotation = playerCamera.transform.rotation;
             Destroy(GetComponent<Collider>());
-            collide = false;
             held = true;
         }
 
-        if (held && Input.GetKeyDown(KeyCode.F))
+        if (held)
         {
-            if (battery > 0f)
+            if (Input.GetKeyDown(KeyCode.F))
             {
-                flashlight.enabled = !flashlight.enabled;
+                if (battery > 0f)
+                {
+                    flashlight.enabled = !flashlight.enabled;
+                }
             }
         }
 
         if (flashlight.enabled)
         {
-            battery -= drainSpeed * Time.smoothDeltaTime;
+            battery -= (100f / drainSpeed) * Time.smoothDeltaTime;
 
             if (battery >= 40f)
             {
@@ -82,7 +85,7 @@ public class Flashlight : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
