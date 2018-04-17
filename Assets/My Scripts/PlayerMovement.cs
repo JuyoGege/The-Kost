@@ -5,8 +5,9 @@
 
 public class PlayerMovement : MonoBehaviour
 {
-    private AudioSource audioSource;
-    private CharacterController charControl;
+    AudioSource audioSource;
+    CharacterController charControl;
+    Transform player;
 
     [SerializeField]
     float moveSpeed = 3f;
@@ -14,12 +15,19 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     float stamina = 100f;
 
+    [SerializeField]
+    float initialHeight = 1.5f;
+
+    [SerializeField]
+    float crouchHeight = 0.8f;
+
     [Range(0, 100)]
     [SerializeField]
     float drainSpeed = 5f; //5 seconds
 
+    [Range(1, 10)]
     [SerializeField]
-    float stepInterval = 4f;
+    float replenishSpeedMultiplier = 4f; //how fast stamina regain
 
     [Range(0, 1)]
     [SerializeField]
@@ -39,42 +47,51 @@ public class PlayerMovement : MonoBehaviour
 
     [Range(0, 1)]
     [SerializeField]
-    float slowMultiplier = 0.8f;
+    float slowMultiplier = 0.7f;
+
+    [SerializeField]
+    float stepInterval = 4f;
 
     [SerializeField]
     AudioClip[] footstepSounds;
 
+    private float lastHeight;
+
     private float horizontal;
     private float vertical;
-    
+
     private float stepCycle;
     private float nextStep;
 
     private float speed;
-    private bool isWalking;
+
+    private Vector3 newPos;
 
     private Vector3 directionX;
     private Vector3 directionZ;
 
     private bool runAllowed;
+    private bool refresh;
 
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
         charControl = GetComponent<CharacterController>();
+        player = GetComponent<Transform>();
+
+        speed = moveSpeed;
 
         stepCycle = 0f;
         nextStep = stepCycle / 2f;
-
-        isWalking = true;
         runAllowed = false;
+        refresh = false;
     }
 
     void Update()
     {
-        isWalking = true;
-        speed = isWalking ? moveSpeed : (moveSpeed * runMultiplier);
         MovePlayer();
+        if (refresh)
+            Replenish();
     }
 
     void MovePlayer()
@@ -82,49 +99,45 @@ public class PlayerMovement : MonoBehaviour
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
 
-        horizontal *= sideMoveMultiplier;
-
         if (vertical > 0)
         {
-            if(stamina == 0)
+            if (stamina == 0)
             {
-                vertical *= slowMultiplier;
+                speed = moveSpeed * slowMultiplier;
+            }
+            else
+            {
+                speed = moveSpeed;
             }
 
             if (Input.GetKey(KeyCode.LeftShift))
             {
-                CancelInvoke();
-
                 if (Input.GetKeyDown(KeyCode.LeftShift))
                 {
-                    Debug.Log("Shift is pressed");
-                    if (stamina > 60)
+                    if (stamina > 20)
                     {
-                        Debug.Log("Stamina is enough to run");
                         runAllowed = true;
+                        CancelInvoke();
                     }
                 }
 
                 if (runAllowed && stamina > 0)
                 {
-                    Debug.Log("Running");
-                    isWalking = false;
-                    vertical *= runMultiplier;
+                    speed = moveSpeed * runMultiplier;
                     stamina -= (100f / drainSpeed) * Time.smoothDeltaTime;
                 }
 
                 else if (stamina <= 0)
                 {
-                    Debug.Log("Stamina drained completely");
                     stamina = 0;
                 }
             }
 
             else if (Input.GetKeyUp(KeyCode.LeftShift))
             {
-                Debug.Log("Shift is released");
+                speed = moveSpeed;
                 runAllowed = false;
-                Invoke("Refresh", 5);
+                Invoke("Refresh", 4);
             }
         }
 
@@ -133,25 +146,51 @@ public class PlayerMovement : MonoBehaviour
             vertical *= backMoveMultiplier;
         }
 
-        directionX = transform.right * horizontal * moveSpeed; //move left or right
-        directionZ = transform.forward * vertical * moveSpeed; //move forward or backward
+        /*----------*/
+
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            speed = moveSpeed * crouchMultiplier;
+            //not done
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            speed = moveSpeed;
+            //not done
+        }
+
+        /*----------*/
+
+        directionX = transform.right * horizontal * speed; //move left or right
+        directionZ = transform.forward * vertical * speed; //move forward or backward
 
         charControl.SimpleMove(directionX);
         charControl.SimpleMove(directionZ);
+
+        /*----------*/
 
         StepCycle();
     }
 
     void Refresh()
     {
-        Debug.Log("Refreshing");
-        while (stamina < 100)
+        refresh = true;
+    }
+
+    void Replenish()
+    {
+        stamina += (replenishSpeedMultiplier * (100f / drainSpeed)) * Time.smoothDeltaTime;
+
+        if (Input.GetKey(KeyCode.LeftShift))
         {
-            stamina += (2 * drainSpeed) * Time.smoothDeltaTime;
-            if (stamina > 100)
-            {
-                stamina = 100;
-            }
+            refresh = false;
+        }
+
+        if (stamina >= 100)
+        {
+            stamina = 100;
+            refresh = false;
         }
     }
 
@@ -159,14 +198,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (charControl.velocity.sqrMagnitude > 0 && (horizontal != 0 || vertical != 0))
         {
-            stepCycle += (charControl.velocity.magnitude + (speed * (isWalking ? 1f : 1.5f))) * Time.smoothDeltaTime;
+            stepCycle += (charControl.velocity.magnitude + (speed * (!runAllowed ? 1f : 1.5f))) * Time.smoothDeltaTime;
         }
 
         if (!(stepCycle > nextStep))
         {
             return;
         }
-        
+
         nextStep = stepCycle + stepInterval;
 
         PlayStep();
@@ -178,7 +217,7 @@ public class PlayerMovement : MonoBehaviour
         audioSource.clip = footstepSounds[n];
         audioSource.PlayOneShot(audioSource.clip);
         footstepSounds[n] = footstepSounds[0];
-        footstepSounds[0] = audioSource.clip;   
+        footstepSounds[0] = audioSource.clip;
     }
 
 }

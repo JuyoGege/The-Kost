@@ -55,11 +55,14 @@
      <Compile Include="Assets\Character\TerrainAsset\Scipts\FPControllerTerrains.cs" />
      <Compile Include="Assets\Character\TerrainAsset\Scipts\MouseLook.cs" />
      <Compile Include="Assets\DoorProject\Prefab\Opener.cs" />
+     <Compile Include="Assets\My Scripts\Battery.cs" />
      <Compile Include="Assets\My Scripts\CharacterRun.cs" />
      <Compile Include="Assets\My Scripts\CollideTile.cs" />
      <Compile Include="Assets\My Scripts\DoorScripts.cs" />
      <Compile Include="Assets\My Scripts\DoorTrigger.cs" />
      <Compile Include="Assets\My Scripts\Flashlight.cs" />
+     <Compile Include="Assets\My Scripts\Inventory.cs" />
+     <Compile Include="Assets\My Scripts\ItemPick.cs" />
      <Compile Include="Assets\My Scripts\LevelLoader.cs" />
      <Compile Include="Assets\My Scripts\loadLevel.cs" />
      <Compile Include="Assets\My Scripts\Menucontrol.cs" />
